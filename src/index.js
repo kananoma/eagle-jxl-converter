@@ -28,6 +28,26 @@ function log(msg) {
   logEl.scrollTop = logEl.scrollHeight
 }
 
+function formatBytes(bytes) {
+  const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB']
+  let size = bytes
+  let unitIndex = 0
+
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024
+    unitIndex++
+  }
+
+  return `${size.toFixed(unitIndex === 0 ? 0 : 2)} ${units[unitIndex]}`
+}
+
+function formatSizeRatio(inputBytes, outputBytes) {
+  if (inputBytes <= 0) return '算出不可'
+
+  const ratio = Math.round(((outputBytes - inputBytes) / inputBytes) * 100)
+  return `${ratio > 0 ? '+' : ''}${ratio}%`
+}
+
 // スライダー値変更イベント: 品質 (Quality)
 qualitySlider.addEventListener('input', (e) => {
   const val = e.target.value
@@ -98,7 +118,8 @@ convertBtn.addEventListener('click', async () => {
 
   let successCount = 0
   let failCount = 0
-  let totalSavedBytes = 0
+  let totalOriginalBytes = 0
+  let totalOutputBytes = 0
 
   log(`\n========================================`)
   log(`変換開始 [Quality: ${quality}, Effort: ${effort}]`)
@@ -160,13 +181,10 @@ convertBtn.addEventListener('click', async () => {
       }
 
       successCount++
-      const saved = origSize - newSize
-      if (saved > 0) {
-        totalSavedBytes += saved
-      }
+      totalOriginalBytes += origSize
+      totalOutputBytes += newSize
 
-      const savedKB = (saved / 1024).toFixed(1)
-      log(`  ✔ 完了 (削減: ${savedKB} KB)`)
+      log(`  ✔ 完了 (${formatBytes(origSize)} -> ${formatBytes(newSize)} (${formatSizeRatio(origSize, newSize)}))`)
     } catch (err) {
       failCount++
       log(`  ❌ 失敗: ${err.message}`)
@@ -187,10 +205,9 @@ convertBtn.addEventListener('click', async () => {
   log(`\n========================================`)
   log(`すべての処理が完了しました`)
   log(`成功: ${successCount} 件 / 失敗: ${failCount} 件`)
-  if (totalSavedBytes > 0) {
-    const savedMB = (totalSavedBytes / (1024 * 1024)).toFixed(2)
-    log(`合計削減容量: ${savedMB} MB`)
-  }
+  log(`合計入力ファイルサイズ： ${formatBytes(totalOriginalBytes)}`)
+  log(`合計出力ファイルサイズ： ${formatBytes(totalOutputBytes)}`)
+  log(`ファイルサイズ比： ${formatSizeRatio(totalOriginalBytes, totalOutputBytes)}`)
   log(`========================================`)
 
   convertBtn.textContent = '変換完了'

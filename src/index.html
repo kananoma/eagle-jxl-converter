@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JXL 変換</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        padding: 16px;
+        margin: 0;
+        background: #1e1e1e;
+        color: #ddd;
+        font-size: 13px;
+        user-select: none;
+      }
+      h3 {
+        margin: 0 0 12px 0;
+        font-size: 16px;
+        color: #fff;
+      }
+      .card {
+        background: #2a2a2a;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .slider-container {
+        margin-bottom: 12px;
+      }
+      .slider-container:last-child {
+        margin-bottom: 0;
+      }
+      input[type='range'] {
+        width: 100%;
+        margin-top: 4px;
+        accent-color: #007acc;
+      }
+      .badge {
+        font-size: 11px;
+        padding: 2px 6px;
+        background: #444;
+        border-radius: 3px;
+        color: #aaa;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background: #007acc;
+        border: none;
+        color: white;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      button:disabled {
+        background: #555;
+        cursor: not-allowed;
+      }
+      progress {
+        width: 100%;
+        height: 8px;
+        margin-top: 10px;
+        display: none;
+      }
+      #log {
+        font-family: Consolas, monospace;
+        font-size: 11px;
+        height: 110px;
+        overflow-y: auto;
+        background: #141414;
+        padding: 8px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        color: #aaa;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>JXL 変換</h3>
+
+    <div class="card">
+      <div class="row">
+        <span>選択された画像:</span>
+        <b id="item-summary">0 件</b>
+      </div>
+      <div id="type-breakdown" style="font-size: 11px; color: #888"></div>
+    </div>
+
+    <div class="card">
+      <div class="slider-container">
+        <div class="row">
+          <span><b>品質 (Quality)</b></span>
+          <span id="quality-val" style="color: #4daafc; font-weight: bold">90</span>
+        </div>
+        <input type="range" id="quality" min="1" max="100" value="90" />
+        <div class="row">
+          <span class="badge">1 (低画質)</span>
+          <span class="badge">90 (視覚的ロスレス)</span>
+          <span class="badge">100 (完全ロスレス)</span>
+        </div>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #3a3a3a; margin: 12px 0" />
+
+      <div class="slider-container">
+        <div class="row">
+          <span><b>圧縮率 (Effort)</b></span>
+          <span id="effort-val" style="color: #4daafc; font-weight: bold">7 (標準)</span>
+        </div>
+        <input type="range" id="effort" min="1" max="9" value="7" />
+        <div class="row">
+          <span class="badge">1 (最速)</span>
+          <span class="badge">7 (バランス推奨)</span>
+          <span class="badge">9 (最大圧縮・低速)</span>
+        </div>
+      </div>
+    </div>
+
+    <button id="convert-btn">変換を実行</button>
+    <progress id="progress" value="0" max="100"></progress>
+    <div id="log">準備完了。</div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "id": "com.custom.jxl-converter",
+  "version": "1.0.0",
+  "name": "JXL 変換",
+  "logo": "assets/logo.png",
+  "main": {
+    "url": "src/index.html",
+    "width": 440,
+    "height": 520,
+    "resizable": false
+  },
+  "devTools": false
+}

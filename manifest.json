@@ -6,7 +6,7 @@
   "main": {
     "url": "src/index.html",
     "width": 440,
-    "height": 520,
+    "height": 580,
     "resizable": false
   },
   "devTools": false

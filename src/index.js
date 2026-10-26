@@ -24,7 +24,7 @@ let targetItems = []
 
 // ログ出力用ユーティリティ
 function log(msg) {
-  logEl.textContent += msg + '\n'
+  logEl.value += msg + '\n'
   logEl.scrollTop = logEl.scrollHeight
 }
 
@@ -152,6 +152,9 @@ convertBtn.addEventListener('click', async () => {
         }
       } else {
         // 不可逆圧縮（Quality指定）
+        if (ext === 'jpg' || ext === 'jpeg') {
+          args.push('--lossless_jpeg=0')
+        }
         args.push('-q', quality.toString())
       }
 

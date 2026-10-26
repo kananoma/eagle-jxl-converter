@@ -72,6 +72,9 @@
         font-family: Consolas, monospace;
         font-size: 11px;
         height: 110px;
+        width: 100%;
+        box-sizing: border-box;
+        resize: none;
         overflow-y: auto;
         background: #141414;
         padding: 8px;
@@ -79,6 +82,8 @@
         white-space: pre-wrap;
         color: #aaa;
         margin-top: 12px;
+        user-select: text;
+        -webkit-user-select: text;
       }
     </style>
   </head>
@@ -125,7 +130,7 @@
 
     <button id="convert-btn">変換を実行</button>
     <progress id="progress" value="0" max="100"></progress>
-    <div id="log">準備完了。</div>
+    <textarea id="log" aria-label="変換ログ" readonly>準備完了。</textarea>
 
     <script src="index.js"></script>
   </body>
